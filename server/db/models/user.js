@@ -3,6 +3,16 @@ const Sequelize = require('sequelize')
 const db = require('../db')
 
 const User = db.define('user', {
+  firstName: {
+    type: Sequelize.STRING,
+    unique: false,
+    allowNull: false
+  },
+  lastName: {
+    type: Sequelize.STRING,
+    unique: false,
+    allowNull: false
+  },
   email: {
     type: Sequelize.STRING,
     unique: true,
@@ -26,6 +36,56 @@ const User = db.define('user', {
   },
   googleId: {
     type: Sequelize.STRING
+  },
+  city: {
+    type: Sequelize.STRING,
+    allowNull: false,
+    validate: {
+      notEmpty: true
+    }
+  },
+  state: {
+    type: Sequelize.STRING,
+    allowNull: false,
+    validate: {
+      notEmpty: true
+    }
+  },
+  position: {
+    type: Sequelize.STRING
+  },
+  minSalary: {
+    type: Sequelize.STRING,
+    allowNull: false,
+    validate: {
+      notEmpty: true
+    }
+  },
+  maxSalary: {
+    type: Sequelize.STRING,
+    allowNull: false,
+    validate: {
+      notEmpty: true
+    }
+  },
+  description: {
+    type: Sequelize.TEXT,
+    allowNull: true
+  },
+  photoDescription: {
+    type: Sequelize.STRING,
+    allowNull: true
+  },
+  video: {
+    type: Sequelize.STRING,
+    allowNull: true
+  },
+  userLevel: {
+    type: Sequelize.ENUM(['Employee', 'Employer']),
+    allowNull: false,
+    validate: {
+      notEmpty: true
+    }
   }
 })
 
