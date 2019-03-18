@@ -5,10 +5,12 @@ const request = require('supertest')
 const db = require('../db')
 const app = require('../index')
 const User = db.model('user')
-
 describe('User routes', () => {
   beforeEach(() => {
     return db.sync({force: true})
+  })
+  after(async () => {
+    await User.destroy({truncate: true, cascade: true})
   })
 
   describe('/api/users/', () => {
@@ -16,7 +18,18 @@ describe('User routes', () => {
 
     beforeEach(() => {
       return User.create({
-        email: codysEmail
+        email: 'cody@puppybook.com',
+        password: 'bones',
+        firstName: 'Cody',
+        lastName: 'Codyson',
+        location: 'Timbuktu, Kansas',
+        position: 'Software Developer',
+        minSalary: '20000.00',
+        maxSalary: '30000.00',
+        description: 'I am a software developer that wants a job please',
+        photoDescription: 'www.google.com/photos/cody/photoofcody',
+        videoDescription: 'www.firebaselinktocodyvideo.com/cody',
+        userLevel: 'Employee'
       })
     })
 
