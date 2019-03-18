@@ -1,7 +1,7 @@
 const crypto = require('crypto')
 const Sequelize = require('sequelize')
 const db = require('../db')
-
+const ATTRIBUTE_WHITELIST = ['firstName', 'lastName', 'email', 'city', 'state', 'position', 'minSalary', 'maxSalary', 'description', 'photoDescription', 'video', 'userLevel']
 const User = db.define('user', {
   firstName: {
     type: Sequelize.STRING,
@@ -94,18 +94,18 @@ module.exports = User
 /**
  * instanceMethods
  */
-User.prototype.correctPassword = function(candidatePwd) {
+User.prototype.correctPassword = function (candidatePwd) {
   return User.encryptPassword(candidatePwd, this.salt()) === this.password()
 }
 
 /**
  * classMethods
  */
-User.generateSalt = function() {
+User.generateSalt = function () {
   return crypto.randomBytes(16).toString('base64')
 }
 
-User.encryptPassword = function(plainText, salt) {
+User.encryptPassword = function (plainText, salt) {
   return crypto
     .createHash('RSA-SHA256')
     .update(plainText)
@@ -113,6 +113,7 @@ User.encryptPassword = function(plainText, salt) {
     .digest('hex')
 }
 
+User.addScope('defaultScope', { attributes: ATTRIBUTE_WHITELIST }, { override: true })
 /**
  * hooks
  */

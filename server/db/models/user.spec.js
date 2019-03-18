@@ -1,17 +1,15 @@
 /* global describe beforeEach it */
 
-const {expect} = require('chai')
-const assert = require('assert')
-const Sequelize = require('sequelize')
+const { expect } = require('chai')
 const db = require('../index')
 const User = db.model('user')
 const factory = require('../../utils/factory')
 describe('User model', () => {
   beforeEach(() => {
-    return db.sync({force: true})
+    return db.sync({ force: true })
   })
   after(async () => {
-    await User.destroy({truncate: true, cascade: true})
+    await User.destroy({ truncate: true, cascade: true })
   })
 
   describe('Model Properties', () => {
@@ -38,4 +36,13 @@ describe('User model', () => {
       }
     }) // end it block
   }) // end describe Model Properties
+  describe('Model structure', () => {
+    let cody;
+    it('does not return password/salt with default scoping', async () => {
+      cody = await factory.UserFactory().save();
+      const findCody = await User.findOne({ where: { id: cody.id } });
+      expect(findCody.dataValues.password).to.equal(undefined)
+      expect(findCody.dataValues.salt).to.equal(undefined)
+    })
+  }) // end describe('Model structure')
 }) // end describe('User model')
