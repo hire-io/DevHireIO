@@ -1,5 +1,6 @@
 const User = require('./user')
 const InterviewQuestion = require('./interviewQuestion')
+const Skills = require('./skills')
 /**
  * If we had any associations to make, this would be a great place to put them!
  * ex. if we had another model called BlogPost, we might say:
@@ -15,5 +16,6 @@ const InterviewQuestion = require('./interviewQuestion')
  */
 module.exports = {
   User,
-  InterviewQuestion
+  InterviewQuestion,
+  Skills
 }
