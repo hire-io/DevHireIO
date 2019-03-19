@@ -48,7 +48,8 @@ const User = db.define('user', {
     type: Sequelize.STRING,
     allowNull: false,
     validate: {
-      notEmpty: true
+      notEmpty: true,
+      len: [2, 2]
     }
   },
   position: {

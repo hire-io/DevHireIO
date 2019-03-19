@@ -13,7 +13,7 @@ describe('User model', () => {
   })
 
   describe('Model Properties', () => {
-    let cody
+    let cody, other;
     beforeEach(() => {
       cody = factory.UserFactory({
         city: null,
@@ -21,6 +21,9 @@ describe('User model', () => {
         minSalary: null,
         maxSalary: null,
         userLevel: null
+      });
+      other = factory.UserFactory({
+        state: 'ALA'
       })
     })
     it('validation testing - ensures required properties are present upon creation', async () => {
@@ -35,6 +38,14 @@ describe('User model', () => {
         expect(err.errors[4].message).to.equal('user.userLevel cannot be null')
       }
     }) // end it block
+    it('validation testing - ensures state value is length 2', async () => {
+      try {
+        await other.validate()
+      } catch (err) {
+        expect(err.errors.length).to.equal(1)
+        expect(err.errors[0].message).to.equal('Validation len on state failed')
+      }
+    })
   }) // end describe Model Properties
   describe('Model structure', () => {
     let cody;
@@ -43,6 +54,6 @@ describe('User model', () => {
       const findCody = await User.findOne({ where: { id: cody.id } });
       expect(findCody.dataValues.password).to.equal(undefined)
       expect(findCody.dataValues.salt).to.equal(undefined)
-    })
+    });
   }) // end describe('Model structure')
 }) // end describe('User model')

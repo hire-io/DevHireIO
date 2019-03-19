@@ -1,4 +1,4 @@
-import {User} from '../db/models'
+import { User, InterviewQuestion } from '../db/models'
 const faker = require('faker')
 const uuid = require('uuidv4')
 const UserFactory = params => {
@@ -19,7 +19,16 @@ const UserFactory = params => {
   }
   return User.build(Object.assign(randomizedAttributes, params))
 }
+const InterviewQuestionFactory = params => {
+  const randomizedAttributes = {
+    question: faker.lorem.text(),
+    hints: [faker.lorem.text(), faker.lorem.text()],
+    answer: faker.lorem.text()
+  }
+  return InterviewQuestion.build(Object.assign(randomizedAttributes, params))
+}
 
 module.exports = {
-  UserFactory
+  UserFactory,
+  InterviewQuestionFactory
 }

@@ -1,16 +1,16 @@
 /* global describe beforeEach it */
 
-const {expect} = require('chai')
+const { expect } = require('chai')
 const request = require('supertest')
 const db = require('../db')
 const app = require('../index')
 const User = db.model('user')
 describe('User routes', () => {
   beforeEach(() => {
-    return db.sync({force: true})
+    return db.sync({ force: true })
   })
   after(async () => {
-    await User.destroy({truncate: true, cascade: true})
+    await User.destroy({ truncate: true, cascade: true })
   })
 
   describe('/api/users/', () => {
@@ -22,7 +22,8 @@ describe('User routes', () => {
         password: 'bones',
         firstName: 'Cody',
         lastName: 'Codyson',
-        location: 'Timbuktu, Kansas',
+        city: 'Timbuktu',
+        state: 'AL',
         position: 'Software Developer',
         minSalary: '20000.00',
         maxSalary: '30000.00',

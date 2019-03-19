@@ -1,10 +1,10 @@
 'use strict'
 
 const db = require('../server/db')
-const {User} = require('../server/db/models')
+const { User } = require('../server/db/models')
 
 async function seed() {
-  await db.sync({force: true})
+  await db.sync({ force: true })
   console.log('db synced!')
 
   const users = await Promise.all([
@@ -13,7 +13,8 @@ async function seed() {
       password: 'bones',
       firstName: 'Cody',
       lastName: 'Codyson',
-      location: 'Timbuktu, Kansas',
+      city: 'Timbuktu',
+      state: 'KS',
       position: 'Software Developer',
       minSalary: '20000.00',
       maxSalary: '30000.00',
