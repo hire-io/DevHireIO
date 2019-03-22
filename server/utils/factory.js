@@ -36,7 +36,6 @@ const SkillsFactory = params => {
   return Skills.build(Object.assign(randomizedAttributes, params))
 }
 
-<<<<<<< HEAD
 const ProjectsFactory = params => {
   const randomizedAttributes = {
     name: 'Random Project',
@@ -46,7 +45,7 @@ const ProjectsFactory = params => {
     description: faker.lorem.text()
   }
   return Projects.build(Object.assign(randomizedAttributes, params))
-=======
+}
 const WorkExperienceFactory = params => {
   const randomizedAttributes = {
     companyName: 'Google',
@@ -57,16 +56,12 @@ const WorkExperienceFactory = params => {
     description: faker.lorem.text()
   }
   return WorkExperience.build(Object.assign(randomizedAttributes, params))
->>>>>>> master
 }
 
 module.exports = {
   UserFactory,
   InterviewQuestionFactory,
   SkillsFactory,
-<<<<<<< HEAD
-  ProjectsFactory
-=======
+  ProjectsFactory,
   WorkExperienceFactory
->>>>>>> master
 }
