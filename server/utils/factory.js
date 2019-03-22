@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import { User, InterviewQuestion, Skills, Projects } from '../db/models'
+=======
+import { User, InterviewQuestion, Skills, WorkExperience } from '../db/models'
+>>>>>>> master
 const faker = require('faker')
 const uuid = require('uuidv4')
 const UserFactory = params => {
@@ -36,6 +40,7 @@ const SkillsFactory = params => {
   return Skills.build(Object.assign(randomizedAttributes, params))
 }
 
+<<<<<<< HEAD
 const ProjectsFactory = params => {
   const randomizedAttributes = {
     name: 'Random Project',
@@ -45,11 +50,27 @@ const ProjectsFactory = params => {
     description: faker.lorem.text()
   }
   return Projects.build(Object.assign(randomizedAttributes, params))
+=======
+const WorkExperienceFactory = params => {
+  const randomizedAttributes = {
+    companyName: 'Google',
+    jobTitle: 'Software Engineer',
+    startDate: faker.date.past(),
+    endDate: faker.date.past(),
+    companySite: faker.internet.url(),
+    description: faker.lorem.text()
+  }
+  return WorkExperience.build(Object.assign(randomizedAttributes, params))
+>>>>>>> master
 }
 
 module.exports = {
   UserFactory,
   InterviewQuestionFactory,
   SkillsFactory,
+<<<<<<< HEAD
   ProjectsFactory
+=======
+  WorkExperienceFactory
+>>>>>>> master
 }

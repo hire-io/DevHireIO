@@ -1,5 +1,6 @@
 const User = require('./user')
 const InterviewQuestion = require('./interviewQuestion')
+const WorkExperience = require('./workExperience')
 const Skills = require('./skills')
 const Projects = require('./projects')
 /**
@@ -8,7 +9,8 @@ const Projects = require('./projects')
  *
  *    BlogPost.belongsTo(User)
  */
-
+Skills.belongsToMany(User, { through: 'UserSkills' })
+User.belongsToMany(Skills, { through: 'UserSkills' })
 /**
  * We'll export all of our models here, so that any time a module needs a model,
  * we can just require it from 'db/models'
@@ -19,5 +21,6 @@ module.exports = {
   User,
   InterviewQuestion,
   Skills,
-  Projects
+  Projects,
+  WorkExperience
 }
