@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-import { User, InterviewQuestion, Skills, Projects } from '../db/models'
-=======
-import { User, InterviewQuestion, Skills, WorkExperience } from '../db/models'
->>>>>>> master
+import { User, InterviewQuestion, Skills, WorkExperience, Projects } from '../db/models'
 const faker = require('faker')
 const uuid = require('uuidv4')
 const UserFactory = params => {
