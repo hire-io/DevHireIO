@@ -4,6 +4,7 @@ const WorkExperience = require('./workExperience')
 const Skills = require('./skills')
 const Education = require('./education')
 const Projects = require('./projects')
+const Jobs = require('./jobs')
 /**
  * If we had any associations to make, this would be a great place to put them!
  * ex. if we had another model called BlogPost, we might say:
@@ -26,5 +27,6 @@ module.exports = {
   WorkExperience,
   Skills,
   Education,
-  Projects
+  Projects,
+  Jobs
 }
