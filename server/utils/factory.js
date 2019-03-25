@@ -1,4 +1,4 @@
-import { User, InterviewQuestion, Skills, WorkExperience, Projects, Education } from '../db/models'
+import { User, InterviewQuestion, Skills, WorkExperience, Projects, Education, Jobs } from '../db/models'
 const faker = require('faker')
 const uuid = require('uuidv4')
 const UserFactory = params => {
@@ -68,11 +68,23 @@ const EducationFactory = params => {
   return Education.build(Object.assign(randomizedAttributes, params))
 }
 
+const JobFactory = params => {
+  const randomizedAttributes = {
+    description: 'This position is for a 3 year exp. software developer with great people skills.',
+    salary: '100,000.00',
+    requirements: ['BA or similar', '3 years of Javascript knowledge', 'Strong familiarity with HTML'],
+    preferred: ['Ability to relocate', 'Knowledge of React/Vue/Angular'],
+    location: 'Atlanta, GA'
+  }
+  return Jobs.build(Object.assign(randomizedAttributes, params))
+}
+
 module.exports = {
   UserFactory,
   InterviewQuestionFactory,
   SkillsFactory,
   WorkExperienceFactory,
   EducationFactory,
-  ProjectsFactory
+  ProjectsFactory,
+  JobFactory
 }
