@@ -1,4 +1,4 @@
-import { User, InterviewQuestion, Skills, WorkExperience, Projects, Education, Jobs } from '../db/models'
+import { User, InterviewQuestion, Skills, WorkExperience, Projects, Education, Jobs, Schedule } from '../db/models'
 const faker = require('faker')
 const uuid = require('uuidv4')
 const UserFactory = params => {
@@ -79,6 +79,16 @@ const JobFactory = params => {
   return Jobs.build(Object.assign(randomizedAttributes, params))
 }
 
+const ScheduleFactory = params => {
+  const randomizedAttributes = {
+    startTime: '8:00AM',
+    endTime: '9:00AM',
+    date: faker.date.past(),
+    status: 'Available'
+  }
+  return Schedule.build(Object.assign(randomizedAttributes, params))
+}
+
 module.exports = {
   UserFactory,
   InterviewQuestionFactory,
@@ -86,5 +96,6 @@ module.exports = {
   WorkExperienceFactory,
   EducationFactory,
   ProjectsFactory,
-  JobFactory
+  JobFactory,
+  ScheduleFactory
 }
