@@ -1,8 +1,7 @@
 const crypto = require('crypto')
 const Sequelize = require('sequelize')
 const db = require('../db')
-const ATTRIBUTE_WHITELIST = ['firstName', 'lastName', 'email', 'city', 'state', 'position', 'minSalary', 'maxSalary', 'description', 'photoDescription', 'video', 'userLevel']
-
+const ATTRIBUTE_WHITELIST = ['id', 'firstName', 'lastName', 'email', 'city', 'state', 'position', 'minSalary', 'maxSalary', 'description', 'photoDescription', 'video', 'userLevel']
 const User = db.define('user', {
   firstName: {
     type: Sequelize.STRING,
@@ -116,6 +115,12 @@ const User = db.define('user', {
       notEmpty: true,
       isIn: [['Employee', 'Employer']]
     }
+  },
+  resetPasswordToken: {
+    type: Sequelize.STRING
+  },
+  resetPasswordExpires: {
+    type: Sequelize.DATE
   }
 })
 
@@ -141,12 +146,14 @@ User.encryptPassword = function (plainText, salt) {
     .toString('hex')
 }
 
-User.addScope('defaultScope', { attributes: ATTRIBUTE_WHITELIST }, { override: true })
+User.addScope('noToken', { attributes: ATTRIBUTE_WHITELIST })
+User.addScope('withToken', { attributes: [...ATTRIBUTE_WHITELIST, 'resetPasswordToken', 'resetPasswordExpires'] })
 /**
  * hooks
  */
 const setSaltAndPassword = user => {
   if (user.changed('password')) {
+    console.log('changed password')
     user.salt = User.generateSalt()
     user.password = User.encryptPassword(user.password(), user.salt())
   }
