@@ -1,9 +1,9 @@
-import React, {Component} from 'react'
-import {connect} from 'react-redux'
-import {withRouter, Route, Switch} from 'react-router-dom'
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { withRouter, Route, Switch } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import {Login, Signup, UserHome} from './components'
-import {me} from './store'
+import { Login, Signup, UserHome, EmployerSignup, ForgotPassword, ResetPassword } from './components'
+import { me } from './store'
 
 /**
  * COMPONENT
@@ -14,17 +14,20 @@ class Routes extends Component {
   }
 
   render() {
-    const {isLoggedIn} = this.props
-
+    const { isLoggedIn } = this.props
     return (
       <Switch>
         {/* Routes placed here are available to all visitors */}
+        <Route path='/reset/:token' component={ResetPassword} />
+        <Route path='/reset' component={ForgotPassword} />
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
+        <Route path='/employer' component={EmployerSignup} />
+
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}
-            <Route path="/home" component={UserHome} />
+            <Route exact path="/home" component={UserHome} />
           </Switch>
         )}
         {/* Displays our Login component as a fallback */}

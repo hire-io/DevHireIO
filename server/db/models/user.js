@@ -1,17 +1,33 @@
 const crypto = require('crypto')
 const Sequelize = require('sequelize')
 const db = require('../db')
-const ATTRIBUTE_WHITELIST = ['firstName', 'lastName', 'email', 'city', 'state', 'position', 'minSalary', 'maxSalary', 'description', 'photoDescription', 'video', 'userLevel']
+const ATTRIBUTE_WHITELIST = ['id', 'firstName', 'lastName', 'email', 'city', 'state', 'position', 'minSalary', 'maxSalary', 'description', 'photoDescription', 'video', 'userLevel']
 const User = db.define('user', {
   firstName: {
     type: Sequelize.STRING,
-    unique: false,
-    allowNull: false
+    validate: {
+      isEmployer(val) {
+        if (this.userLevel === 'Employee' && !val) {
+          throw new Error('Must enter first name')
+        }
+      }
+    }
   },
   lastName: {
     type: Sequelize.STRING,
-    unique: false,
-    allowNull: false
+    validate: {
+      isEmployer(val) {
+        if (this.userLevel === 'Employee' && !val) {
+          throw new Error('Must enter last name')
+        }
+      }
+    }
+  },
+  companyName: {
+    type: Sequelize.STRING,
+    validate: {
+
+    }
   },
   email: {
     type: Sequelize.STRING,
@@ -61,16 +77,23 @@ const User = db.define('user', {
   },
   minSalary: {
     type: Sequelize.STRING,
-    allowNull: false,
     validate: {
-      notEmpty: true
+      isEmployer(val) {
+        if (this.userLevel === 'Employee' && !val.length) {
+          throw new Error('Must enter minimum salary.')
+        }
+      }
     }
   },
   maxSalary: {
     type: Sequelize.STRING,
-    allowNull: false,
     validate: {
-      notEmpty: true
+      isEmployer(val) {
+        console.log(val)
+        if (this.userLevel === 'Employee' && !val.length) {
+          throw new Error('Must enter maximum salary')
+        }
+      }
     }
   },
   description: {
@@ -92,6 +115,12 @@ const User = db.define('user', {
       notEmpty: true,
       isIn: [['Employee', 'Employer']]
     }
+  },
+  resetPasswordToken: {
+    type: Sequelize.STRING
+  },
+  resetPasswordExpires: {
+    type: Sequelize.DATE
   }
 })
 
@@ -113,18 +142,18 @@ User.generateSalt = function () {
 
 User.encryptPassword = function (plainText, salt) {
   return crypto
-    .createHash('RSA-SHA256')
-    .update(plainText)
-    .update(salt)
-    .digest('hex')
+    .scryptSync(plainText, salt, 64)
+    .toString('hex')
 }
 
-User.addScope('defaultScope', { attributes: ATTRIBUTE_WHITELIST }, { override: true })
+User.addScope('noToken', { attributes: ATTRIBUTE_WHITELIST })
+User.addScope('withToken', { attributes: [...ATTRIBUTE_WHITELIST, 'resetPasswordToken', 'resetPasswordExpires'] })
 /**
  * hooks
  */
 const setSaltAndPassword = user => {
   if (user.changed('password')) {
+    console.log('changed password')
     user.salt = User.generateSalt()
     user.password = User.encryptPassword(user.password(), user.salt())
   }
